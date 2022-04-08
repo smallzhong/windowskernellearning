@@ -1,0 +1,31 @@
+1.数据段与代码段，堆栈段 权限规则总结
+  请动手后在总结
+
+2.JMP跨段跳转，CALL跨段跳转 RETF指令对堆栈产生的变化理解
+
+3.JMP跨段跳转到新的段，顺利返回，并且CS要恢复调回的原样
+	
+
+void __declspec(naked) test()
+	{
+		__asm
+		{
+			ret; 
+		}
+
+	}
+
+	int _tmain(int argc, _TCHAR* argv[])
+	{
+		printf("%x\r\n",test);
+
+		char bufcode[6]={0,0,0,0,0x48,0};
+		*(int *)&bufcode[0]=(int )test;
+		__asm
+		{
+			push heihei
+			jmp far bufcode
+		heihei:
+		}
+		return 0;
+	}
